@@ -3,8 +3,6 @@ TideHunter
 
 HTTP streaming toolbox with flow control.
 
-The control
-
 ## Highlights
 
 * Stream data queue, state machine, and record counter based on Redis and redis-py.
