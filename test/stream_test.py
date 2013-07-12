@@ -69,7 +69,8 @@ class QueueTest(unittest.TestCase):
 
     def test_get(self):
         # When empty
-        self.assertIsNone(self.q.get())
+        # self.assertIsNone(self.q.get())
+        self.assertTrue(self.q.get() is None)  # 2.1 - 2.6 support
 
         # When not empty
         val = ''.join(random.choice(string.ascii_uppercase + string.digits)
