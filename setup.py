@@ -21,14 +21,12 @@ requires = [
     "hiredis>=0.1.1"
 ]
 
-import tidehunter
-
 setup(
     name='tidehunter',
-    version=tidehunter.__version__,
+    version='0.1.0',
     description='HTTP streaming toolbox with flow control.',
-    long_description=open('README.md').read(),
-    author=tidehunter.__author__,
+    long_description=open('README.rst').read(),
+    author='Runzhou Li (Leo)',
     author_email='runzhou.li@gmail.com',
     url='https://github.com/amoa/tidehunter',
     packages=packages,
