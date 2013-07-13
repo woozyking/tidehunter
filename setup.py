@@ -23,7 +23,7 @@ requires = [
 
 setup(
     name='tidehunter',
-    version='0.1.0',
+    version='0.1.1',
     description='HTTP streaming toolbox with flow control.',
     long_description=open('README.rst').read(),
     author='Runzhou Li (Leo)',
