@@ -1,6 +1,14 @@
 CHANGES
 =======
 
+[x] = Fix or Misc., where x is the measurement of importance.
+
+0.1.3 (2013-07-13)
+------------------
+
+- [Major]: use the great httpbin.org (by Kenneth Reitz) for unit test now.
+- [Major]: auth (oauth or basic) is no longer required, as long as the target stream server supports access without auth.
+
 0.1.2 (2013-07-12)
 ------------------
 
