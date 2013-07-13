@@ -5,6 +5,9 @@ HTTP streaming toolbox with flow control, written in Python.
 
 .. image:: https://travis-ci.org/amoa/tidehunter.png?branch=master
         :target: https://travis-ci.org/amoa/tidehunter
+        
+.. image:: https://pypip.in/d/tidehunter/badge.png?
+        :target: https://pypi.python.org/pypi/tidehunter
 
 Highlights
 ----------
