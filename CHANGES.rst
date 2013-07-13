@@ -5,7 +5,7 @@ CHANGES
 ------------------
 
 - [Minor]: include CHANGES (changelog) to be shown on PyPi.
-- [Minor]: with statement used to open files for setup.py
+- [Minor]: use with statement to open files for setup.py.
 - [Minor]: added the first demo_.
 
 .. _demo: https://github.com/amoa/tidehunter/tree/master/demo
