@@ -8,14 +8,17 @@ import string
 import sys
 import os
 
-# Ugly test configs
-from .config import HUNTER_CONF
-
 target_path = os.path.join(os.path.dirname(__file__), '..', 'tidehunter')
 sys.path.append(target_path)
 
 # Test Targets
 from stream import StateCounter, Queue, Hunter
+
+HUNTER_CONF = {
+    'url': 'https://httpbin.org/stream/20',
+    'limit': 5,
+    'delimiter': '\n'
+}
 
 
 class HunterTest(unittest.TestCase):

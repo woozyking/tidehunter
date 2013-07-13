@@ -129,7 +129,7 @@ class Hunter(object):
         self.url = str(conf['url'])
         self.delimiter = conf.get('delimiter', '\r\n')
         self.timeout = conf.get('timeout', 0)
-        self.compressed = conf.get("compressed", True)
+        self.compressed = conf.get('compressed', True)
 
         # oauth
         oauth = conf.get('oauth')
@@ -147,8 +147,8 @@ class Hunter(object):
         self.pw = ''
 
         if not self.consumer or not self.token:
-            self.user = str(conf['user'])
-            self.pw = str(conf['pass'])
+            self.user = str(conf.get('user', ''))
+            self.pw = str(conf.get('pass', ''))
 
         # setup connection
         self.setup_conn()
@@ -173,7 +173,7 @@ class Hunter(object):
         if self.token and self.consumer:
             auth = get_oauth_header(self.consumer, self.token, self.url)
             self.conn.setopt(pycurl.HTTPHEADER, ['Authorization: %s' % auth])
-        else:
+        elif self.user and self.pw:
             auth = "%s:%s" % (self.user, self.pw)
             self.conn.setopt(pycurl.USERPWD, auth)
 
@@ -182,7 +182,7 @@ class Hunter(object):
             self.conn.setopt(pycurl.CONNECTTIMEOUT, self.timeout)
 
         if self.compressed:
-            self.conn.setopt(pycurl.ENCODING, "gzip, deflate")
+            self.conn.setopt(pycurl.ENCODING, 'gzip, deflate')
 
         # Incoming data handler
         self.conn.setopt(pycurl.WRITEFUNCTION, self._on_data_receive)

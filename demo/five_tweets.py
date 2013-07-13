@@ -5,11 +5,11 @@ import sys
 import os
 import json
 
-target_path = os.path.join(os.path.dirname(__file__), '..', 'tidehunter')
+# Take the following two lines out if you installed tidehunter through pip
+target_path = os.path.join(os.path.dirname(__file__), '..')
 sys.path.append(target_path)
 
-# Test Targets
-from stream import StateCounter, Queue, Hunter
+from tidehunter.stream import StateCounter, Queue, Hunter
 
 
 if __name__ == '__main__':
