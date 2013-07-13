@@ -20,6 +20,12 @@ Installation
 
     $ pip install tidehunter
 
+Or to update:
+
+.. code-block:: bash
+
+    $ pip install tidehunter --upgrade
+
 Note: the package will install all Python dependencies for you. However you need to have redis-server installed by yourself.
 
 Usage
