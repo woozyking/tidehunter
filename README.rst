@@ -20,6 +20,15 @@ Installation
 
     $ pip install tidehunter
 
+Note: the package will install all Python dependencies for you. However you need to have redis-server installed by yourself.
+
+Usage
+-----
+
+See demo_.
+
+.. _demo: https://github.com/amoa/tidehunter/tree/master/demo
+
 Documentation
 -------------
 

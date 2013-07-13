@@ -21,11 +21,22 @@ requires = [
     "hiredis>=0.1.1"
 ]
 
+with open('LICENSE') as f:
+    license = f.read()
+
+with open('README.rst') as f:
+    readme = f.read()
+
+with open('CHANGES.rst') as f:
+    changes = f.read()
+
+long_description = readme + '\n\n' + changes
+
 setup(
     name='tidehunter',
-    version='0.1.1',
+    version='0.1.2',
     description='HTTP streaming toolbox with flow control.',
-    long_description=open('README.rst').read(),
+    long_description=long_description,
     author='Runzhou Li (Leo)',
     author_email='runzhou.li@gmail.com',
     url='https://github.com/amoa/tidehunter',
@@ -34,7 +45,7 @@ setup(
     package_dir={'tidehunter': 'tidehunter'},
     include_package_data=True,
     install_requires=requires,
-    license=open('LICENSE').read(),
+    license=license,
     zip_safe=False,
     classifiers=(
         # https://pypi.python.org/pypi?%3Aaction=list_classifiers
