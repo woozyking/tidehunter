@@ -45,11 +45,10 @@ The tests are done through Travis-CI already.
 
 However, running the full test within your local environment is just three lines, provided that you have Redis installed and running:
 
-```
-$ pip install -r requirements.txt
-$ pip install -r test_requirements.txt
-$ nosetests --with-coverage
-```
+.. code-block:: bash
+    $ pip install -r requirements.txt
+    $ pip install -r test_requirements.txt
+    $ nosetests --with-coverage
 
 Documentation
 -------------
