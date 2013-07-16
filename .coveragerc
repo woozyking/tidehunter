@@ -1,0 +1,7 @@
+[run]
+omit =
+	*hiredis*
+	*redis*
+	*pycurl*
+	*oauth2*
+	*httplib2*
