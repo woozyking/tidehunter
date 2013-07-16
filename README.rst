@@ -48,7 +48,7 @@ However, running the full test within your local environment is just three lines
 ```
 $ pip install -r requirements.txt
 $ pip install -r test_requirements.txt
-$ nosetests --with-coverage
+$ nosetests --with-coverage --cover-tests
 ```
 
 Documentation
