@@ -7,11 +7,12 @@ python:
 # Dependencies
 install:
   - pip install -r requirements.txt --use-mirrors
+  - pip install coverage
+  - pip install coveralls
 
 # Test
 script: nosetests --with-coverage --cover-tests
 
 # Coverage
 after_success:
-  - pip install coveralls
   - coveralls --verbose

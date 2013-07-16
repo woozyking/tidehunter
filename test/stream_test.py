@@ -45,7 +45,7 @@ class HunterTest(unittest.TestCase):
 
         try:
             self.h.conn.close()
-        except:
+        except:  # pragma: no cover
             pass
 
 
