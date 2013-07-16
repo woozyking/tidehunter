@@ -14,14 +14,16 @@ sys.path.append(target_path)
 # Test Targets
 from stream import StateCounter, Queue, Hunter
 
-HUNTER_CONF = {
-    'url': 'https://httpbin.org/stream/20',
-    'limit': 5,
-    'delimiter': '\n'
-}
-
 
 class HunterTest(unittest.TestCase):
+
+    def _conf(self):
+        self.hunter_conf = {
+            'url': 'https://httpbin.org/stream/20',
+            'limit': 5,
+            'delimiter': '\n',
+            'timeout': 30
+        }
 
     def setUp(self):
         self.sc_key = 'test_sc'
@@ -29,7 +31,9 @@ class HunterTest(unittest.TestCase):
                                db=0)
         self.q_key = 'test_q'
         self.q = Queue(key=self.q_key, host='localhost', port=6379, db=0)
-        self.h = Hunter(HUNTER_CONF, self.sc, self.q)
+
+        self._conf()  # load in the hunter_conf
+        self.h = Hunter(self.hunter_conf, self.sc, self.q)
 
     def test_tide_on(self):
         self.h.tide_on()
@@ -43,6 +47,22 @@ class HunterTest(unittest.TestCase):
             self.h.conn.close()
         except:
             pass
+
+
+class HunterTestOAuth(HunterTest):
+
+    def _conf(self):
+        self.hunter_conf = {
+            'url': 'https://stream.twitter.com/1.1/statuses/sample.json',
+            'oauth': {
+                'consumer_key': '5wgrdrBSvbfXBuopdGgY9Q',
+                'consumer_secret': 'GKtn1buVpvynFlDsFmTl8tRJmnbVsSmULRGUbEMNU',
+                'token_key': '974720028-xyfPogLX9ynU05xQYwYNiPtiZengdpdYbyxnpXBI',
+                'token_secret': 'rFDXV79FIG3881oxYT3XpYKEXi22bk74DaM7poYR0g'
+            },
+            'limit': 5,
+            'timeout': 30
+        }
 
 
 class QueueTest(unittest.TestCase):

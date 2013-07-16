@@ -17,7 +17,7 @@ class RedisBase(object):
         self.initialize()
 
     def initialize(self):
-        raise NotImplementedError
+        raise NotImplementedError  # pragma: no cover
 
 
 class StateCounter(RedisBase):
@@ -30,6 +30,7 @@ class StateCounter(RedisBase):
         count: positive int value (current count for limit)
         total: positive int value (total count since init)
     '''
+
     def __str__(self):
         ret = "State: " + str(self.get_state())
         ret += "\tCount: " + str(self.get_count())
@@ -43,28 +44,19 @@ class StateCounter(RedisBase):
             self.conn.hset(self.key, 'total', 0)
 
     def get_state(self):
-        val = self.conn.hget(self.key, 'state')
+        val = self.conn.hget(self.key, 'state') or 0
 
-        if val:
-            return int(val)
-
-        return 0
+        return int(val)
 
     def get_count(self):
-        val = self.conn.hget(self.key, 'count')
+        val = self.conn.hget(self.key, 'count') or 0
 
-        if val:
-            return int(val)
-
-        return 0
+        return int(val)
 
     def get_total(self):
-        val = self.conn.hget(self.key, 'total')
+        val = self.conn.hget(self.key, 'total') or 0
 
-        if val:
-            return int(val)
-
-        return 0
+        return int(val)
 
     def get_all(self):
         return self.conn.hgetall(self.key)
@@ -99,6 +91,7 @@ class Queue(RedisBase):
     '''
     A minimum data queue, based on Redis List
     '''
+
     def initialize(self):
         pass
 
@@ -137,10 +130,10 @@ class Hunter(object):
         self.token = None
 
         if oauth:
-            self.consumer = oauth2.Consumer(key=oauth['consumer_key'],
-                                            secret=oauth['consumer_secret'])
-            self.token = oauth2.Token(key=oauth['token_key'],
-                                      secret=oauth['token_secret'])
+            self.consumer = oauth2.Consumer(
+                key=oauth['consumer_key'], secret=oauth['consumer_secret'])
+            self.token = oauth2.Token(
+                key=oauth['token_key'], secret=oauth['token_secret'])
 
         # basic auth
         self.user = ''
@@ -157,7 +150,7 @@ class Hunter(object):
         if self.conn:
             try:
                 self.conn.close()
-            except:
+            except:  # pragma: no cover
                 pass
 
             self.conn = None

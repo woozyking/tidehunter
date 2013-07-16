@@ -5,7 +5,7 @@ HTTP streaming toolbox with flow control, written in Python.
 
 .. image:: https://travis-ci.org/amoa/tidehunter.png?branch=master
         :target: https://travis-ci.org/amoa/tidehunter
-        
+
 .. image:: https://pypip.in/d/tidehunter/badge.png?
         :target: https://pypi.python.org/pypi/tidehunter
 
@@ -29,7 +29,7 @@ Or to update:
 
     $ pip install tidehunter --upgrade
 
-Note: the package will install all Python dependencies for you. However you need to have redis-server installed by yourself.
+Note: the package will install all Python dependencies for you. However you need to have Redis installed and running.
 
 Usage
 -----
@@ -37,6 +37,19 @@ Usage
 See demo_.
 
 .. _demo: https://github.com/amoa/tidehunter/tree/master/demo
+
+Test (Unit Tests)
+-----------------
+
+The tests are done through Travis-CI already.
+
+However, running the full test within your local environment is just three lines, provided that you have Redis installed and running:
+
+```
+$ pip install -r requirements.txt
+$ pip install -r test_requirements.txt
+$ nosetests --with-coverage
+```
 
 Documentation
 -------------

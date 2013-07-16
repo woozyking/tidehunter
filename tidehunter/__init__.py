@@ -21,7 +21,7 @@ import logging
 
 try:  # Python 2.7+
     from logging import NullHandler
-except ImportError:
+except ImportError:  # pragma: no cover
     class NullHandler(logging.Handler):
 
         def emit(self, record):
