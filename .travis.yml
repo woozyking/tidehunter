@@ -8,11 +8,11 @@ python:
 install:
   - pip install -r requirements.txt --use-mirrors
   - pip install coverage
-  - pip install coveralls
+  - if [[ $TRAVIS_PYTHON_VERSION != '2.5' ]]; then pip install coveralls --use-mirrors && export HAS_COVERALLS=1; fi
 
 # Test
 script: nosetests --with-coverage --cover-package=tidehunter
 
 # Coverage
 after_success:
-  - coveralls --verbose
+  - if [[ $HAS_COVERALLS ]]; then coveralls; fi
