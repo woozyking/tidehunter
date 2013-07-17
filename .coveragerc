@@ -1,19 +1,4 @@
 [run]
-omit =
-	*hiredis*
-	*redis*
-	*pycurl*
-	*oauth2*
-	*httplib2*
-	*calendar*
-	*distutils*
-	*gzip*
-	*hmac*
-	*httplib*
-	*mimetools*
-	*rfc822*
-	*email*
-
 exclude_lines =
     # Have to re-enable the standard pragma
     pragma: no cover
