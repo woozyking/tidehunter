@@ -6,6 +6,9 @@ HTTP streaming toolbox with flow control, written in Python.
 .. image:: https://travis-ci.org/amoa/tidehunter.png?branch=master
         :target: https://travis-ci.org/amoa/tidehunter
 
+.. image:: https://coveralls.io/repos/amoa/tidehunter/badge.png?branch=master
+        :target: https://coveralls.io/r/amoa/tidehunter?branch=master
+
 .. image:: https://pypip.in/d/tidehunter/badge.png?
         :target: https://pypi.python.org/pypi/tidehunter
 
@@ -49,7 +52,7 @@ However, running the full test within your local environment is just three lines
 
     $ pip install -r requirements.txt
     $ pip install -r test_requirements.txt
-    $ nosetests --with-coverage --cover-tests
+    $ nosetests --with-coverage --cover-package=tidehunter
 
 Documentation
 -------------
