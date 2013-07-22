@@ -24,22 +24,42 @@ if __name__ == '__main__':
     # Init Hunter with conf
     conf = {
         'url': 'https://httpbin.org/stream/20',
-        'limit': 5,  # desired limit, might go over
-        'delimiter': '\n'
+        'delimiter': '\n',
+        'limit': 10
     }
     h = Hunter(conf=conf, sc=sc, q=q)
 
     for i in xrange(5):
-        h.tide_on()
+        h.tide_on(limit=i + 1)
+
+        print "Just " + str(i + 1) + ":\t",
+
+        count = 0
 
         while len(q):
             data = json.loads(q.get())
 
             if data:
-                print(data)
+                count += 1
+                print count,
 
         print
 
-    # Some cleanup
+    print
+    h.tide_on()  # no explicit limit, limit by conf or default is restored
+
+    print "Limit by conf restored and in effect: " + str(conf['limit'])
+
+    count = 0
+
+    while len(q):
+        data = json.loads(q.get())
+
+        if data:
+            count += 1
+            print count,
+
+    print
+
     sc.conn.delete(key_sc)
     q.conn.delete(key_q)

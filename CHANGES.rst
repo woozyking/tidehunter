@@ -1,7 +1,15 @@
 CHANGES
 =======
 
+++NEW++ = New feature.
 [x] = Fix or Misc., where x is the measurement of importance.
+
+0.1.5 (2013-07-22)
+------------------
+
+- ++NEW++: :code:`Hunter.tide_on()` now accepts an optional :code:`limit` parameter for on-the-fly limit adjustment. The adjustment is not permanent, meaning if you want to reuse the same :code:`Hunter` object, the old limit (or default None) is in effect. See :code:`demo/limit_on_the_fly.py` for sample usage.
+- [Major]: Fixed a potential issue of :code:`Hunter` puts in more records than desired limit.
+- [Minor]: Added temp Basic Auth test case (no stream, need to find a better source).
 
 0.1.3 (2013-07-13)
 ------------------
@@ -16,8 +24,6 @@ CHANGES
 - [Minor]: use with statement to open files for setup.py.
 - [Minor]: added the first demo_.
 
-.. _demo: https://github.com/amoa/tidehunter/tree/master/demo
-
 0.1.1 (2013-07-12)
 ------------------
 
@@ -27,3 +33,5 @@ CHANGES
 ------------------
 
 - Initial release
+
+.. _demo: https://github.com/amoa/tidehunter/tree/master/demo

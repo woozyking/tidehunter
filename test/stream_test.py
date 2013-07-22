@@ -39,6 +39,44 @@ class HunterTest(unittest.TestCase):
         self.h.tide_on()
         self.assertEqual(self.sc.get_total(), 5)
 
+        # test the case of on-the-fly limit adjustment
+        self.sc.conn.hset(self.sc_key, 'total', 0)
+        self.h.tide_on(limit=10)
+        self.assertEqual(self.sc.get_total(), 10)
+
+    def tearDown(self):
+        self.sc.conn.delete(self.sc_key)
+        self.q.conn.delete(self.q_key)
+
+        try:
+            self.h.conn.close()
+        except:  # pragma: no cover
+            pass
+
+
+class HunterTestBasicAuth(unittest.TestCase):
+
+    # TODO: find a stream with BASIC Auth requirement to test
+    # atm just basic auth without streaming
+    def setUp(self):
+        self.sc_key = 'test_sc'
+        self.sc = StateCounter(key=self.sc_key, host='localhost', port=6379,
+                               db=0)
+        self.q_key = 'test_q'
+        self.q = Queue(key=self.q_key, host='localhost', port=6379, db=0)
+
+        conf = {
+            'url': 'http://httpbin.org/hidden-basic-auth/user/passwd',
+            'user': 'woozyking',
+            'pass': 'kingwoozy'
+        }
+        self.h = Hunter(conf, self.sc, self.q)
+
+    def test_tide_on(self):
+        actual = self.h.tide_on()
+        expected = 404
+        self.assertEqual(actual, expected)
+
     def tearDown(self):
         self.sc.conn.delete(self.sc_key)
         self.q.conn.delete(self.q_key)

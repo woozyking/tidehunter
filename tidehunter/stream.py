@@ -116,6 +116,7 @@ class Hunter(object):
         self.q = q
         self.sc = sc
         self.limit = conf.get('limit', 0)
+        self.limit_bak = self.limit  # support tide_on() limit restore
 
         # connection
         self.conn = None
@@ -188,29 +189,34 @@ class Hunter(object):
             self.buffer = ""
 
             for j in iter_chunk(q_data, self.delimiter):
-                self.q.put(j)
-
                 if self.sc.started():
+                    self.q.put(j)
                     self.sc.incr()
 
-                    if self.limit and self.sc.get_count() >= self.limit:
-                        self.sc.stop()
+                if self.limit and self.sc.get_count() >= self.limit:
+                    self.sc.stop()
 
-        # TODO: clean up the most recent buffer?
-        # currently just disregard it
         if self.sc.stopped():
-            return -1  # the way to stop the stream, would raise pycurl.error
+            # the way to stop the stream, would raise pycurl.error
+            # and pycurl also prints it regardless of handling the error
+            return -1
 
-    def tide_on(self):
+    def tide_on(self, limit=None):
         # while self.sc.started():
         try:
             self.sc.start()
-            self.q.put("{}")  # just to reactivate queue
+            self.q.put("{}")  # force reactivate queue
             self.setup_conn()
+
+            if limit:
+                self.limit = limit  # overwrite limit "on the fly"
+            else:
+                self.limit = self.limit_bak
+
             self.conn.perform()
         except pycurl.error as e:
             if e[0] == 23:
-                pass
+                pass  # pycurl prints this error regardless
             else:
                 raise
         except:
