@@ -1,7 +1,7 @@
 CHANGES
 =======
 
-0.1.5a (2013-07-22)
+0.1.5b (2013-07-22)
 -------------------
 
 - NEW: :code:`Hunter.tide_on()` now accepts an optional :code:`limit` parameter for on-the-fly limit adjustment. The adjustment is not permanent, meaning if you want to reuse the same :code:`Hunter` object, the old limit (or default None) is in effect. See :code:`demo/limit_on_the_fly.py` for sample usage.
@@ -19,7 +19,7 @@ CHANGES
 
 - [Minor]: include CHANGES (changelog) to be shown on PyPi.
 - [Minor]: use with statement to open files for setup.py.
-- [Minor]: added the first demo_.
+- [Minor]: added the first `demo <https://github.com/amoa/tidehunter/tree/master/demo>`_.
 
 0.1.1 (2013-07-12)
 ------------------
@@ -30,5 +30,3 @@ CHANGES
 ------------------
 
 - Initial release
-
-.. _demo: https://github.com/amoa/tidehunter/tree/master/demo
