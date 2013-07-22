@@ -22,19 +22,19 @@ requires = [
 ]
 
 with open('LICENSE') as f:
-    license = f.read()
+    license = f.read().strip()
 
 with open('README.rst') as f:
-    readme = f.read()
+    readme = f.read().strip()
 
 with open('CHANGES.rst') as f:
-    changes = f.read()
+    changes = f.read().strip()
 
 long_description = readme + '\n\n' + changes
 
 setup(
     name='tidehunter',
-    version='0.1.5',
+    version='0.1.5a',
     description='HTTP streaming toolbox with flow control.',
     long_description=long_description,
     author='Runzhou Li (Leo)',
