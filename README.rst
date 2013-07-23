@@ -15,7 +15,7 @@ HTTP streaming toolbox with flow control, written in Python.
 Background
 ----------
 
-This project was born for a need in my day time job at Addictive Mobility (Addictive Tech Corp.). Before this project was open sourced, it went through two major overhauls. I briefly mentioned the techniques I used in previous versions in a [blog post](http://runzhou.li/blog/2013/07/02/tame-py-curl/).
+This project was born for a need in my day time job at Addictive Mobility (Addictive Tech Corp.). Before this project was open sourced, it went through two major overhauls. I briefly mentioned the techniques I used in previous versions in a `blog post <http://runzhou.li/blog/2013/07/02/tame-py-curl/>`_.
 
 Highlights
 ----------
