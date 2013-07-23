@@ -3,11 +3,7 @@ TideHunter
 
 HTTP streaming toolbox with flow control, written in Python.
 
-[![Build Status](https://travis-ci.org/amoa/tidehunter.png?branch=master)](https://travis-ci.org/amoa/tidehunter)
-
-[![Coverage Status](https://coveralls.io/repos/amoa/tidehunter/badge.png?branch=master)](https://coveralls.io/r/amoa/tidehunter?branch=master)
-
-[![Downloads](https://pypip.in/d/tidehunter/badge.png)](https://pypi.python.org/pypi/tidehunter)
+[![Build Status](https://travis-ci.org/amoa/tidehunter.png?branch=master)](https://travis-ci.org/amoa/tidehunter) [![Coverage Status](https://coveralls.io/repos/amoa/tidehunter/badge.png?branch=master)](https://coveralls.io/r/amoa/tidehunter?branch=master) [![Downloads](https://pypip.in/d/tidehunter/badge.png)](https://pypi.python.org/pypi/tidehunter)
 
 Background
 ----------
