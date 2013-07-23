@@ -45,6 +45,7 @@ Usage
 -----
 
 Example 1 (with limit):
+~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: python
 
@@ -80,6 +81,7 @@ Example 1 (with limit):
 
 
 Example 2 (without limit):
+~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Assume you have a process running the following code:
 
