@@ -81,7 +81,7 @@ Example 1 (with limit):
 
 Example 2 (without limit):
 
-Assume you have another process running the following code
+Assume you have a process running the following code:
 
 .. code-block:: python
 
@@ -100,7 +100,8 @@ Assume you have another process running the following code
     # Start streaming, FOREVA
     h.tide_on()
 
-Now you have another process that consumes the data and makes the quota control
+
+You can delegate the responsibility of data consumption and stream control to another process:
 
 .. code-block:: python
 
@@ -117,7 +118,7 @@ Now you have another process that consumes the data and makes the quota control
         # ...
 
         if SHT_HITS_THE_FAN:
-            sc.stop()  # instant off switch and end of while loop
+            sc.stop()  # instant off switch, end of while loop, as well as the process above
 
 
 
