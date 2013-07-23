@@ -24,7 +24,7 @@ if __name__ == '__main__':
     # Init Hunter with conf
     conf = {
         'url': 'https://httpbin.org/stream/20',
-        'limit': 5,  # desired limit, might go over
+        'limit': 5,  # desired limit
         'delimiter': '\n'
     }
     h = Hunter(conf=conf, sc=sc, q=q)
