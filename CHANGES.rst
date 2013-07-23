@@ -3,9 +3,10 @@
 Changelog
 ---------
 
-0.1.6 (2013-07-22)
+0.1.6a (2013-07-22)
 ++++++++++++++++++
 
+- Minor: Massive update to README.rst
 - Minor: Fixed PyPi rendering of long description.
 
 
