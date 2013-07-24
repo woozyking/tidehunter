@@ -14,12 +14,8 @@ packages = [
     'tidehunter'
 ]
 
-requires = [
-    "pycurl>=7.18.1",
-    "oauth2>=1.5.211",
-    "redis>=2.7.6",
-    "hiredis>=0.1.1"
-]
+with open('requirements.txt') as f:
+    requires = f.read().strip().splitlines()
 
 with open('LICENSE') as f:
     license = f.read().strip()
