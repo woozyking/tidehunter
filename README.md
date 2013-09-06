@@ -3,7 +3,7 @@ TideHunter
 
 HTTP streaming toolbox with flow control, written in Python.
 
-[![Build Status](https://travis-ci.org/amoa/tidehunter.png?branch=master)](https://travis-ci.org/amoa/tidehunter) [![Coverage Status](https://coveralls.io/repos/amoa/tidehunter/badge.png?branch=master)](https://coveralls.io/r/amoa/tidehunter?branch=master) [![Downloads](https://pypip.in/d/tidehunter/badge.png)](https://pypi.python.org/pypi/tidehunter)
+[![Build Status](https://travis-ci.org/woozyking/tidehunter.png?branch=master)](https://travis-ci.org/woozyking/tidehunter) [![Coverage Status](https://coveralls.io/repos/woozyking/tidehunter/badge.png?branch=master)](https://coveralls.io/r/woozyking/tidehunter?branch=master) [![Downloads](https://pypip.in/d/tidehunter/badge.png)](https://pypi.python.org/pypi/tidehunter)
 
 Background
 ----------
@@ -21,7 +21,7 @@ Highlights
 -   An instant off switch - when sht hits the fan and you don't want to crash your process.
 -   Redis backed control tools - semi-persisted, fast, and scalable.
 -   Core mechanisms based on the solid cURL and PycURL - inherits the built-in goodness (gzip support and more).
--   OAuth support based on python-oauth2 - see [this demo](https://github.com/amoa/tidehunter/blob/master/demo/five_tweets.py) in action.
+-   OAuth support based on python-oauth2 - see [this demo](https://github.com/woozyking/tidehunter/blob/master/demo/five_tweets.py) in action.
 
 Installation
 ------------
@@ -116,7 +116,7 @@ while sc.started():
         sc.stop()  # instant off switch, end of while loop, as well as the process above
 ```
 
-See [demo](https://github.com/amoa/tidehunter/tree/master/demo) for more examples.
+See [demo](https://github.com/woozyking/tidehunter/tree/master/demo) for more examples.
 
 Test (Unit Tests)
 -----------------
@@ -140,4 +140,4 @@ Coming up very soon!
 License
 -------
 
-Copyright (c) 2013 Addictive Tech Corp., under The MIT License (MIT). See the full [LICENSE](https://github.com/amoa/tidehunter/blob/master/LICENSE).
+The MIT License (MIT). See the full [LICENSE](https://github.com/woozyking/tidehunter/blob/master/LICENSE).

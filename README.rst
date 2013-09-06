@@ -8,16 +8,24 @@ HTTP streaming toolbox with flow control, written in Python.
 Background
 ----------
 
-This project was born for a need in my day time job at Addictive Mobility (Addictive Tech Corp.). Before this project was open sourced, it went through two major overhauls. I briefly mentioned the techniques I used in previous versions in a `blog post <http://runzhou.li/blog/2013/07/02/tame-py-curl/>`_.
+This project was born for a need in my day time job at Addictive
+Mobility (Addictive Tech Corp.). Before this project was open sourced,
+it went through two major overhauls. I briefly mentioned the techniques
+I used in previous versions in a `blog
+post <http://runzhou.li/blog/2013/07/02/tame-py-curl/>`__.
 
 Highlights
 ----------
 
-- Accurate quota limit - total control over your stream quota.
-- An instant off switch - when sht hits the fan and you don't want to crash your process.
-- Redis backed control tools - semi-persisted, fast, and scalable.
-- Core mechanisms based on the solid cURL and PycURL - inherits the built-in goodness (gzip support and more).
-- OAuth support based on python-oauth2 - see `this demo <https://github.com/amoa/tidehunter/blob/master/demo/five_tweets.py>`_ in action.
+-  Accurate quota limit - total control over your stream quota.
+-  An instant off switch - when sht hits the fan and you don't want to
+   crash your process.
+-  Redis backed control tools - semi-persisted, fast, and scalable.
+-  Core mechanisms based on the solid cURL and PycURL - inherits the
+   built-in goodness (gzip support and more).
+-  OAuth support based on python-oauth2 - see `this
+   demo <https://github.com/woozyking/tidehunter/blob/master/demo/five_tweets.py>`__
+   in action.
 
 Installation
 ------------
@@ -32,7 +40,9 @@ Or to update:
 
     $ pip install tidehunter --upgrade
 
-Note: the package will install all Python dependencies for you. However you need to have both cURL (the headers from dev package are also required for PycURL) and Redis installed.
+Note: the package will install all Python dependencies for you. However
+you need to have both cURL (the headers from dev package are also
+required for PycURL) and Redis installed.
 
 Usage
 -----
@@ -94,7 +104,8 @@ Assume you have a process running the following code:
     # Start streaming, FOREVA
     h.tide_on()
 
-You can delegate the responsibility of data consumption and stream control to another process:
+You can delegate the responsibility of data consumption and stream
+control to another process:
 
 .. code:: python
 
@@ -113,7 +124,8 @@ You can delegate the responsibility of data consumption and stream control to an
         if SHT_HITS_THE_FAN:
             sc.stop()  # instant off switch, end of while loop, as well as the process above
 
-See `demo <https://github.com/amoa/tidehunter/tree/master/demo>`_ for more examples.
+See `demo <https://github.com/woozyking/tidehunter/tree/master/demo>`__
+for more examples.
 
 Test (Unit Tests)
 -----------------
@@ -137,11 +149,12 @@ Coming up very soon!
 License
 -------
 
-Copyright (c) 2013 Addictive Tech Corp., under The MIT License (MIT). See the full `LICENSE <https://github.com/amoa/tidehunter/blob/master/LICENSE>`_.
+The MIT License (MIT). See the full
+`LICENSE <https://github.com/woozyking/tidehunter/blob/master/LICENSE>`__.
 
-.. |Build Status| image:: https://travis-ci.org/amoa/tidehunter.png?branch=master
-   :target: https://travis-ci.org/amoa/tidehunter
-.. |Coverage Status| image:: https://coveralls.io/repos/amoa/tidehunter/badge.png?branch=master
-   :target: https://coveralls.io/r/amoa/tidehunter?branch=master
+.. |Build Status| image:: https://travis-ci.org/woozyking/tidehunter.png?branch=master
+   :target: https://travis-ci.org/woozyking/tidehunter
+.. |Coverage Status| image:: https://coveralls.io/repos/woozyking/tidehunter/badge.png?branch=master
+   :target: https://coveralls.io/r/woozyking/tidehunter?branch=master
 .. |Downloads| image:: https://pypip.in/d/tidehunter/badge.png
    :target: https://pypi.python.org/pypi/tidehunter
