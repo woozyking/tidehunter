@@ -1,0 +1,26 @@
+#!/bin/bash
+
+for ARG in "$@"
+do
+	if [ $ARG == '-t' ]; then
+		pip install -r test_requirements.txt -qq
+	fi
+	if [ $ARG == '-u' ]; then
+		# Uninstall previous version
+		pip uninstall tidehunter -yq
+	fi
+done
+
+# Clean up
+rm -rf 'tidehunter.egg-info/'
+rm -rf dist/
+
+# Package
+python setup.py sdist --quiet
+
+# Deploy
+pip install dist/tidehunter* -qq
+
+# Clean up
+rm -rf 'tidehunter.egg-info/'
+rm -rf dist/
