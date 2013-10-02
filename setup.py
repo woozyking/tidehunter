@@ -4,7 +4,12 @@
 import os
 import sys
 
-from setuptools import setup
+import tidehunter
+
+try:
+    from setuptools import setup
+except ImportError:
+    from distutils.core import setup
 
 if sys.argv[-1] == 'publish':
     os.system('python setup.py sdist upload')
@@ -30,10 +35,10 @@ long_description = readme + '\n\n' + changes
 
 setup(
     name='tidehunter',
-    version='0.1.8',
+    version=tidehunter.__version__,
     description='HTTP streaming toolbox with flow control.',
     long_description=long_description,
-    author='Runzhou Li (Leo)',
+    author=tidehunter.__author__,
     author_email='runzhou.li@gmail.com',
     url='https://github.com/woozyking/tidehunter',
     packages=packages,
