@@ -4,8 +4,6 @@
 import os
 import sys
 
-import tidehunter
-
 try:
     from setuptools import setup
 except ImportError:
@@ -35,10 +33,10 @@ long_description = readme + '\n\n' + changes
 
 setup(
     name='tidehunter',
-    version=tidehunter.__version__,
+    version='0.1.8',
     description='HTTP streaming toolbox with flow control.',
     long_description=long_description,
-    author=tidehunter.__author__,
+    author='Runzhou Li (Leo)',
     author_email='runzhou.li@gmail.com',
     url='https://github.com/woozyking/tidehunter',
     packages=packages,
