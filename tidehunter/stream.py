@@ -95,14 +95,29 @@ class Queue(RedisBase):
     def initialize(self):
         pass
 
+    def qsize(self):
+        pass  # TODO
+
+    def empty(self):
+        pass  # TODO
+
+    def full(self):
+        pass  # TODO
+
     def __len__(self):
         return self.conn.llen(self.key)
 
-    def put(self, var):
+    def put(self, var, block=True, timeout=None):
         return self.conn.rpush(self.key, var)
 
-    def get(self):
+    def put_nowait(self, var):
+        return self.put(var, False)
+
+    def get(self, block=True, timeout=None):
         return self.conn.lpop(self.key)
+
+    def get_nowait(self):
+        return self.get(False)
 
 
 class Hunter(object):

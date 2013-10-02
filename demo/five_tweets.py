@@ -25,10 +25,10 @@ if __name__ == '__main__':
     conf = {
         'url': 'https://stream.twitter.com/1.1/statuses/sample.json',
         'oauth': {
-            'consumer_key': '5wgrdrBSvbfXBuopdGgY9Q',
-            'consumer_secret': 'GKtn1buVpvynFlDsFmTl8tRJmnbVsSmULRGUbEMNU',
-            'token_key': '974720028-xyfPogLX9ynU05xQYwYNiPtiZengdpdYbyxnpXBI',
-            'token_secret': 'rFDXV79FIG3881oxYT3XpYKEXi22bk74DaM7poYR0g'
+            'consumer_key': os.environ['TWITTER_CONSUMER_KEY'],
+            'consumer_secret': os.environ['TWITTER_CONSUMER_SECRET'],
+            'token_key': os.environ['TWITTER_TOKEN_KEY'],
+            'token_secret': os.environ['TWITTER_TOKEN_SECRET']
         },
         'limit': 5
     }

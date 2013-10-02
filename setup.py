@@ -30,12 +30,12 @@ long_description = readme + '\n\n' + changes
 
 setup(
     name='tidehunter',
-    version='0.1.7a',
+    version='0.1.8',
     description='HTTP streaming toolbox with flow control.',
     long_description=long_description,
     author='Runzhou Li (Leo)',
     author_email='runzhou.li@gmail.com',
-    url='https://github.com/amoa/tidehunter',
+    url='https://github.com/woozyking/tidehunter',
     packages=packages,
     package_data={'': ['LICENSE']},
     package_dir={'tidehunter': 'tidehunter'},

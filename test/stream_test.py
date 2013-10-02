@@ -91,10 +91,10 @@ class HunterTestOAuth(HunterTest):
 
     def _conf(self):
         oauth_config = {
-            'consumer_key': '5wgrdrBSvbfXBuopdGgY9Q',
-            'consumer_secret': 'GKtn1buVpvynFlDsFmTl8tRJmnbVsSmULRGUbEMNU',
-            'token_key': '974720028-xyfPogLX9ynU05xQYwYNiPtiZengdpdYbyxnpXBI',
-            'token_secret': 'rFDXV79FIG3881oxYT3XpYKEXi22bk74DaM7poYR0g'
+            'consumer_key': os.environ['TWITTER_CONSUMER_KEY'],
+            'consumer_secret': os.environ['TWITTER_CONSUMER_SECRET'],
+            'token_key': os.environ['TWITTER_TOKEN_KEY'],
+            'token_secret': os.environ['TWITTER_TOKEN_SECRET']
         }
 
         self.hunter_conf = {
@@ -134,6 +134,23 @@ class QueueTest(unittest.TestCase):
         # When empty
         # self.assertIsNone(self.q.get())
         self.assertTrue(self.q.get() is None)  # 2.1 - 2.6 support
+
+        # When not empty
+        val = ''.join(random.choice(string.ascii_uppercase + string.digits)
+                      for x in range(32))
+        self.q.conn.rpush(self.key, val)
+        self.assertEqual(self.q.get(), val)
+
+    def test_put_nowait(self):
+        val = ''.join(random.choice(string.ascii_uppercase + string.digits)
+                      for x in range(32))
+        self.assertTrue(self.q.put_nowait(val))
+        self.assertEqual(self.q.conn.lpop(self.key), val)
+
+    def test_get_nowait(self):
+        # When empty
+        # self.assertIsNone(self.q.get())
+        self.assertTrue(self.q.get_nowait() is None)  # 2.1 - 2.6 support
 
         # When not empty
         val = ''.join(random.choice(string.ascii_uppercase + string.digits)
