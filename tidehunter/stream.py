@@ -96,16 +96,22 @@ class Queue(RedisBase):
         pass
 
     def qsize(self):
-        pass  # TODO
+        return self.conn.llen(self.key)
 
     def empty(self):
-        pass  # TODO
+        return self.qsize() == 0
 
     def full(self):
-        pass  # TODO
+        return False  # need a better mechanism since it's controlled by Redis
+
+    def task_done():
+        pass
+
+    def join():
+        pass
 
     def __len__(self):
-        return self.conn.llen(self.key)
+        return self.qsize()
 
     def put(self, var, block=True, timeout=None):
         return self.conn.rpush(self.key, var)
