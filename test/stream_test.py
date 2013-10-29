@@ -124,6 +124,40 @@ class QueueTest(unittest.TestCase):
 
         self.assertEqual(len(self.q), length)
 
+    def test_full(self):
+        # Meaningless now
+        self.assertFalse(self.q.full())
+
+    def test_task_done(self):
+        self.q.task_done()
+
+    def test_join(self):
+        self.q.join()
+
+    def test_qsize(self):
+        # When empty
+        self.assertEqual(self.q.qsize(), 0)
+
+        # When not empty
+        length = random.randint(1, 32)
+
+        for i in xrange(length):
+            self.q.conn.rpush(self.key, i)
+
+        self.assertEqual(self.q.qsize(), length)
+
+    def test_empty(self):
+        # When empty
+        self.assertTrue(self.q.empty())
+
+        # When not empty
+        length = random.randint(1, 32)
+
+        for i in xrange(length):
+            self.q.conn.rpush(self.key, i)
+
+        self.assertFalse(self.q.empty())
+
     def test_put(self):
         val = ''.join(random.choice(string.ascii_uppercase + string.digits)
                       for x in range(32))
