@@ -104,10 +104,10 @@ class Queue(RedisBase):
     def full(self):
         return False  # need a better mechanism since it's controlled by Redis
 
-    def task_done():
+    def task_done(self):
         pass
 
-    def join():
+    def join(self):
         pass
 
     def __len__(self):
