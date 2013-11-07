@@ -9,7 +9,7 @@ HTTP streaming toolbox with flow control, written in Python.
 """
 
 __title__ = 'tidehunter'
-__version__ = '0.1.8'
+__version__ = '0.1.9-dev'
 __build__ = 0x000035
 __author__ = 'Runzhou Li (Leo)'
 __license__ = 'The MIT License (MIT)'
