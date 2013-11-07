@@ -1,15 +1,11 @@
 Changelog
 ---------
 
-0.1.10 (?)
-~~~~~~~~~~
+0.1.9 (?)
+~~~~~~~~~
 
 -  Minor: ``PyCurl`` and ``Redis`` Python libraries bumped to the latest
    versions.
-
-0.1.9 (2013-10-29)
-~~~~~~~~~~~~~~~~~~
-
 -  Minor: ``Queue`` now is **almost** Python Queue compatible (in a
    complaint free fashion), with the exception of ``Queue.full`` which
    always returns ``False``; ``Queue.task_done`` and ``Queue.join`` do
