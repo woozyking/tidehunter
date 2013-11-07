@@ -1,6 +1,12 @@
 Changelog
 ---------
 
+0.1.10 (?)
+~~~~~~~~~~
+
+-  Minor: ``PyCurl`` and ``Redis`` Python libraries bumped to the latest
+   versions.
+
 0.1.9 (2013-10-29)
 ~~~~~~~~~~~~~~~~~~
 
