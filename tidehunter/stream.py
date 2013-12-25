@@ -19,6 +19,10 @@ class RedisBase(object):
     def initialize(self):
         raise NotImplementedError  # pragma: no cover
 
+    def clear(self):
+        self.conn.delete(self.key)
+        self.initialize()
+
 
 class StateCounter(RedisBase):
 

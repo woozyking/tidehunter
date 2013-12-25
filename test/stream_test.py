@@ -108,9 +108,19 @@ class HunterTestOAuth(HunterTest):
 class QueueTest(unittest.TestCase):
 
     def setUp(self):
-        self.key = "test_q"
+        self.key = 'test_q'
         self.q = Queue(key=self.key, host='localhost', port=6379, db=0)
         self.q.conn.delete(self.key)
+
+    def test_clear(self):
+        # When empty
+        self.q.clear()
+        self.assertEquals(self.q.conn.llen(self.key), 0)
+
+        # After putting
+        self.q.conn.rpush(self.key, 'test_val')
+        self.q.clear()
+        self.assertEquals(self.q.conn.llen(self.key), 0)
 
     def test__len__(self):
         # When empty
@@ -199,12 +209,22 @@ class QueueTest(unittest.TestCase):
 class StateCounterTest(unittest.TestCase):
 
     def setUp(self):
-        self.key = "test_sc"
+        self.key = 'test_sc'
         self.sc = StateCounter(key=self.key, host='localhost', port=6379,
                                db=0)
 
+    def test_clear(self):
+        # Right after init
+        self.sc.clear()
+        self.assertEqual(self.sc.conn.hget(self.key, 'count'), '0')
+
+        # After having some count
+        self.sc.conn.hincrby(self.key, 'count', 1)
+        self.sc.clear()
+        self.assertEqual(self.sc.conn.hget(self.key, 'count'), '0')
+
     def test_str(self):
-        self.assertEqual(str(self.sc), "State: 1\tCount: 0\tTotal: 0")
+        self.assertEqual(str(self.sc), 'State: 1\tCount: 0\tTotal: 0')
 
     def test_get_state(self):
         self.assertEqual(self.sc.get_state(), 1)
