@@ -3,7 +3,7 @@
 for ARG in "$@"
 do
 	if [ $ARG == '-t' ]; then
-		pip install -r test_requirements.txt -qq
+		pip install -r test_requirements.txt -q
 	fi
 	if [ $ARG == '-u' ]; then
 		# Uninstall previous version
@@ -16,10 +16,10 @@ rm -rf 'tidehunter.egg-info/'
 rm -rf dist/
 
 # Package
-python setup.py sdist --quiet
+python setup.py -q sdist
 
 # Deploy
-pip install dist/tidehunter* -qq
+pip install dist/tidehunter* -q
 
 # Clean up
 rm -rf 'tidehunter.egg-info/'
