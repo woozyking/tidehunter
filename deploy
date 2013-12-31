@@ -3,24 +3,30 @@
 for ARG in "$@"
 do
 	if [ $ARG == '-t' ]; then
+		echo "Installing test requirements due to provided -t..."
 		pip install -r test_requirements.txt -q
 	fi
 	if [ $ARG == '-u' ]; then
+		echo "Uninstalling any previous version of tidehunter..."
 		# Uninstall previous version
 		pip uninstall tidehunter -yq
 	fi
 done
 
 # Clean up
+echo "Cleaning up previous builds..."
 rm -rf 'tidehunter.egg-info/'
 rm -rf dist/
 
 # Package
+echo "Packaging..."
 python setup.py -q sdist
 
 # Deploy
+echo "Deploying..."
 pip install dist/tidehunter* -q
 
 # Clean up
+echo "Cleaning up builds..."
 rm -rf 'tidehunter.egg-info/'
 rm -rf dist/
