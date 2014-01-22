@@ -5,6 +5,8 @@ python:
 services:
 - redis-server
 install:
+- pip install redis --use-mirrors
+- pip install hiredis --use-mirrors
 - pip install -r requirements.txt --use-mirrors
 - pip install coverage
 script:
