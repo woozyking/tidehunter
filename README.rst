@@ -24,6 +24,7 @@ Installation
 
 .. code:: bash
 
+    $ export PYCURL_SSL_LIBRARY=openssl  # you may have to do this to install pycurl correctly
     $ pip install tidehunter
     $ pip install tidehunter --upgrade
 

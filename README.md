@@ -15,6 +15,7 @@ Master branch: [![Build Status](https://travis-ci.org/woozyking/tidehunter.png?b
 ## Installation
 
 ```bash
+$ export PYCURL_SSL_LIBRARY=openssl  # you may have to do this to install pycurl correctly
 $ pip install tidehunter
 $ pip install tidehunter --upgrade
 ```
