@@ -1,4 +1,3 @@
-pycurl>=7.19.0.2
+pycurl>=7.19.3
 oauth2>=1.5.211
-redis>=2.8.0
-hiredis>=0.1.1
+techies>=0.1.4

@@ -5,11 +5,13 @@ import sys
 import os
 import json
 
+from techies import StateCounter, Queue
+
 # Take the following two lines out if you installed tidehunter through pip
 target_path = os.path.join(os.path.dirname(__file__), '..')
 sys.path.append(target_path)
 
-from tidehunter.stream import StateCounter, Queue, Hunter
+from tidehunter import Hunter
 
 
 if __name__ == '__main__':

@@ -9,12 +9,16 @@ HTTP streaming toolbox with flow control, written in Python.
 """
 
 __title__ = 'tidehunter'
-__version__ = '0.1.9'
+__version__ = '0.2.0'
 __author__ = 'Runzhou Li (Leo)'
 __license__ = 'The MIT License (MIT)'
 __copyright__ = 'Runzhou Li (Leo)'
 
-from . import stream
+from tidehunter.stream import Hunter
+
+__all__ = [
+    'Hunter'
+]
 
 # Set default logging handler to avoid "No handler found" warnings.
 import logging

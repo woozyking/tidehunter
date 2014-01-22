@@ -1,6 +1,15 @@
 Changelog
 ---------
 
+0.2.0 (2014-01-22)
+~~~~~~~~~~~~~~~~~~
+
+-  Moved codebase of ``Queue``, ``StateCounter`` to
+   ```techies`` <https://github.com/woozyking/techies>`__, which now
+   becomes a dependency of ``tidehunter``
+-  Exposed accessibility of ``Hunter`` directly so you may use it as
+   such, ``from tidehunter import Hunter``
+
 0.1.9 (2013-12-24)
 ~~~~~~~~~~~~~~~~~~
 

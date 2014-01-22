@@ -3,16 +3,7 @@ TideHunter
 
 HTTP streaming toolbox with flow control, written in Python.
 
-|Build Status| |Coverage Status| |Downloads|
-
-Background
-----------
-
-This project was born for a need in my day time job at Addictive
-Mobility (Addictive Tech Corp.). Before this project was open sourced,
-it went through two major overhauls. I briefly mentioned the techniques
-I used in previous versions in a `blog
-post <http://runzhou.li/blog/2013/07/02/tame-py-curl/>`__.
+Master branch: |Build Status|
 
 Highlights
 ----------
@@ -20,7 +11,8 @@ Highlights
 -  Accurate quota limit - total control over your stream quota.
 -  An instant off switch - when sht hits the fan and you don't want to
    crash your process.
--  Redis backed control tools - semi-persisted, fast, and scalable.
+-  Redis backed control tools - semi-persisted, fast, and scalable. Now
+   provided by ```techies`` <https://github.com/woozyking/techies>`__.
 -  Core mechanisms based on the solid cURL and PycURL - inherits the
    built-in goodness (gzip support and more).
 -  OAuth support based on python-oauth2 - see `this
@@ -33,11 +25,6 @@ Installation
 .. code:: bash
 
     $ pip install tidehunter
-
-Or to update:
-
-.. code:: bash
-
     $ pip install tidehunter --upgrade
 
 Note: the package will install all Python dependencies for you. However
@@ -52,7 +39,8 @@ Example 1 (with limit):
 
 .. code:: python
 
-    from tidehunter.stream import StateCounter, Queue, Hunter
+    from techies import StateCounter, Queue
+    from tidehunter import Hunter
 
     # The state machine and record counter (state counter)
     sc = StateCounter(key='demo_sc', host='localhost', port=6379, db=0)
@@ -89,7 +77,8 @@ Assume you have a process running the following code:
 
 .. code:: python
 
-    from tidehunter.stream import StateCounter, Queue, Hunter
+    from techies import StateCounter, Queue
+    from tidehunter import Hunter
 
     # The state machine and record counter (state counter)
     sc = StateCounter(key='demo_sc', host='localhost', port=6379, db=0)
@@ -109,7 +98,7 @@ control to another process:
 
 .. code:: python
 
-    from tidehunter.stream import StateCounter, Queue
+    from techies import StateCounter, Queue
 
     # The SAME state machine and record counter (state counter)
     sc = StateCounter(key='demo_sc', host='localhost', port=6379, db=0)
@@ -128,12 +117,9 @@ See `demo <https://github.com/woozyking/tidehunter/tree/master/demo>`__
 for more examples.
 
 Test (Unit Tests)
------------------
+=================
 
-The tests are done through Travis-CI already.
-
-However, running the full test within your local environment is just
-three lines, provided that you have Redis installed and running:
+The tests are done through Travis-CI already. To run them locally:
 
 .. code:: bash
 
@@ -141,20 +127,14 @@ three lines, provided that you have Redis installed and running:
     $ pip install -r test_requirements.txt
     $ nosetests --with-coverage --cover-package=tidehunter
 
-Documentation
--------------
-
-Coming up very soon!
+Again, make sure you have both cURL (libcurl, libcurl-dev) and Redis
+installed
 
 License
--------
+=======
 
 The MIT License (MIT). See the full
 `LICENSE <https://github.com/woozyking/tidehunter/blob/master/LICENSE>`__.
 
 .. |Build Status| image:: https://travis-ci.org/woozyking/tidehunter.png?branch=master
    :target: https://travis-ci.org/woozyking/tidehunter
-.. |Coverage Status| image:: https://coveralls.io/repos/woozyking/tidehunter/badge.png?branch=master
-   :target: https://coveralls.io/r/woozyking/tidehunter?branch=master
-.. |Downloads| image:: https://pypip.in/d/tidehunter/badge.png
-   :target: https://pypi.python.org/pypi/tidehunter
