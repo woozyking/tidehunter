@@ -7,18 +7,15 @@ services:
 install:
 - pip install -r requirements.txt --use-mirrors
 - pip install coverage
-- if [[ $TRAVIS_PYTHON_VERSION != '2.5' ]]; then pip install coveralls --use-mirrors
-  && export HAS_COVERALLS=1; fi
 script:
 - nosetests --with-coverage --cover-package=tidehunter
 - chmod 755 deploy
 - ./deploy
 - ./deploy -u
 - pip uninstall tidehunter -yq
-after_success:
-- if [[ $HAS_COVERALLS ]]; then coveralls; fi
 env:
   global:
+  - PYCURL_SSL_LIBRARY: openssl
   - secure: PD57XKVUAjv9T+UX5qUC4pt8HofcYFd/SKZwf9A7Uxr4FVfCwGEE7gfWHBY1RSvF8Rhi93PFaMkdsday8wiA3BI5D3yMm7euHDzwT09p+r3qV1kZcI7f9DCYvCdJwoDYukUjAQuQdOlxI6v52kuebF80LUu6qvY6RDRknjARdOE=
   - secure: 0DjLrEPIdhbHiWySAladATNYrSEQB2xCveIxrQAyvmE5Hq+gIZ1oZxl89rgBegO7mgCXkYmn6Cm/alWRlyj1Nj9kyV6AOFcFlJwrlsPwDAJFGVM/akyVuvxT7Fv+Jq1KBCRi+bOf50vJpIu3tEYHSCqGfqqFjahB5ipaTIVAOW0=
   - secure: YfYx93zOn4wHjXbqWFfKsOWkh15/MXf7KYIZ5OJ/O6QNfw4qN28/VtWNTUpEI0Dqp6CGsF0AWLNFrEuNY4dOqQw9fpx/PQF0i4pmQxG85wwV4TG0cs7VrHv9g/PM4tF7TET1l6mpV6MyZVE0VTaQQHS4zc5o83pRcJhmvAO0Gpw=

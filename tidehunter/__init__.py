@@ -4,7 +4,7 @@
 """
 HTTP streaming toolbox with flow control, written in Python.
 
-:copyright: (c) 2013 Runzhou Li (Leo)
+:copyright: (c) 2014 Runzhou Li (Leo)
 :license: The MIT License (MIT), see LICENSE for details.
 """
 
