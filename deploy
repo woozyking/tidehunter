@@ -6,9 +6,12 @@ do
         echo "Installing test requirements due to provided -t..."
         pip install -r test_requirements.txt -q
     fi
+    if [ $ARG == '-u' ]; then
+        echo "Uninstalling any previous version of tidehunter..."
+        # Uninstall previous version
+        pip uninstall tidehunter -yq
+    fi
 done
-
-pip uninstall tidehunter -yq
 
 # Clean up
 echo "Cleaning up previous builds..."
