@@ -36,7 +36,7 @@ long_description = readme + '\n\n' + changes
 setup(
     name='tidehunter',
     version=__version__,
-    description='HTTP streaming toolbox with flow control.',
+    description='HTTP streaming with accurate flow control',
     long_description=long_description,
     author='Runzhou Li (Leo)',
     author_email='runzhou.li@gmail.com',

@@ -1,4 +1,4 @@
-# TideHunter
+# tidehunter
 
 HTTP streaming with accurate flow control
 
@@ -103,7 +103,7 @@ sc.clear()
 
 __NOTE__: this example requires `requests_oauthlib`
 
-```
+```python
 import sys
 import os
 import json
