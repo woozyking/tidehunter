@@ -9,7 +9,8 @@ HTTP streaming toolbox with flow control, written in Python.
 """
 
 __title__ = 'tidehunter'
-__version__ = '0.2.0'
+__version__ = '1.0.0'
+VERSION = tuple(map(int, __version__.split('.')))
 __author__ = 'Runzhou Li (Leo)'
 __license__ = 'The MIT License (MIT)'
 __copyright__ = 'Runzhou Li (Leo)'
