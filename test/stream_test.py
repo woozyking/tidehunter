@@ -32,16 +32,16 @@ class HunterTest(unittest.TestCase):
         try:
             limit = randint(1, 19)
             r = self.hunter.tide_on(limit)
-            self.assertIsInstance(r, requests.models.Response)
+            self.assertEqual(type(r), requests.models.Response)
             self.assertEqual(self.hunter.sc.get_total(), limit)
 
             limit2 = randint(1, 19)
             r = self.hunter.tide_on(limit2)
-            self.assertIsInstance(r, requests.models.Response)
+            self.assertEqual(type(r), requests.models.Response)
             self.assertEqual(self.hunter.sc.get_total(), limit + limit2)
 
             r = self.hunter.tide_on()
-            self.assertIsInstance(r, requests.models.Response)
+            self.assertEqual(type(r), requests.models.Response)
             self.assertEqual(self.hunter.sc.get_total(), limit + limit2 + 20)
         except requests.exceptions.ConnectionError:
             pass  # this could happen
