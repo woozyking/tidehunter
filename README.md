@@ -62,14 +62,14 @@ Assume you have a process running the following code:
 from techies import StateCounter, Queue
 from tidehunter import Hunter
 
-# The state machine and record counter (state counter)
-sc = StateCounter(key='demo_sc', host='localhost', port=6379, db=0)
-
 # The data queue
 q = Queue(key='demo_q', host='localhost', port=6379, db=0)
 
+# The state machine and record counter (state counter)
+sc = StateCounter(key='demo_sc', host='localhost', port=6379, db=0)
+
 # The Hunter!
-h = Hunter(url='SOME_ENDLESS_STREAM_LIKE_TWITTER_FIREHOSE', q=q)
+h = Hunter(url='SOME_ENDLESS_STREAM_LIKE_TWITTER_FIREHOSE', q=q, sc=sc)
 
 # Start streaming, FOREVA
 h.tide_on()
