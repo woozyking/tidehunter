@@ -1,65 +1,60 @@
 # TideHunter
 
-HTTP streaming toolbox with flow control, written in Python.
+HTTP streaming with accurate flow control
 
 Master branch: [![Build Status](https://travis-ci.org/woozyking/tidehunter.png?branch=master)](https://travis-ci.org/woozyking/tidehunter)
 
+__NOTE__: version 1.x is not backward compatible with 0.x.
+
 ## Highlights
 
-* Accurate quota limit - total control over your stream quota.
-* An instant off switch - when sht hits the fan and you don't want to crash your process.
-* Redis backed control tools - semi-persisted, fast, and scalable. Now provided by [`techies`](https://github.com/woozyking/techies).
-* Core mechanisms based on the solid cURL and PycURL - inherits the built-in goodness (gzip support and more).
-* OAuth support based on python-oauth2 - see [this demo](https://github.com/woozyking/tidehunter/blob/master/demo/five_tweets.py) in action.
+* Consumption limits, total control over your stream quota just on the client side. Especially useful when server side does not have this feature.
+* Instant on and off states, as well as accurate consumption counter. Best used with [`techies`](https://github.com/woozyking/techies) for highly modular designs.
+* Queue interface for scalable stream data consumption. Best used with [`techies`](https://github.com/woozyking/techies) for highly modular designs.
+* Core mechanisms based on the solid [`requests`](https://github.com/kennethreitz/requests) library. Inherits all its goodness, including flexible encodings and [various authentications support](http://docs.python-requests.org/en/latest/user/authentication/).
 
 ## Installation
 
 ```bash
-$ export PYCURL_SSL_LIBRARY=openssl  # you may have to do this to install pycurl correctly
 $ pip install tidehunter
 $ pip install tidehunter --upgrade
 ```
-
-Note: the package will install all Python dependencies for you. However you need to have both cURL (the headers from dev package are also required for PycURL) and Redis installed.
 
 ## Usage
 
 ### Example 1 (with limit):
 
+__NOTE__: when no external `Queue` or `StateCounter` supplied, `Hunter` uses the Python standard `Queue` and the builtin `SimpleStateCounter` respectively, which are usually enough for single process designs and other simple cases.
+
 ```python
-from techies import StateCounter, Queue
 from tidehunter import Hunter
 
-# The state machine and record counter (state counter)
-sc = StateCounter(key='demo_sc', host='localhost', port=6379, db=0)
-
-# The data queue
-q = Queue(key='demo_q', host='localhost', port=6379, db=0)
-
 # The Hunter!
-conf = {
-    'url': 'https://httpbin.org/stream/100',
-    'limit': 5,  # desired limit
-    'delimiter': '\n'
-}
-h = Hunter(conf=conf, sc=sc, q=q)
+h = Hunter(url='https://httpbin.org/stream/20')
 
 # Start streaming
-h.tide_on()
+h.tide_on(limit=5)
 
 # Consume the data which should be in the data queue now
-while len(q):
-    print q.get()  # profit x 5
+while h.q.qsize():
+    print(h.q.get())  # profit x 5
 
-# You can re-use the same Hunter object, and add a one-time limit
-h.tide_on(limit=1)  # this time we only want one record
+# You can re-use the same Hunter object, with a difference limit
+r = h.tide_on(limit=1)  # this time we only want one record
 
-assert len(q) == 1  # or else there's a bug, create an issue!
+assert h.q.qsize() == 1  # or else there's a bug, create an issue!
 
-print q.get()  # more profit
+print(h.q.get())  # more profit
+
+# r is actually just a requests.Response object
+print(r.headers)
+print(r.status_code)
+# ... read up on requests library for more information
 ```
 
 ### Example 2 (without limit):
+
+__NOTE__: this example uses `techies` and therefore requires Redis installed.
 
 Assume you have a process running the following code:
 
@@ -74,23 +69,21 @@ sc = StateCounter(key='demo_sc', host='localhost', port=6379, db=0)
 q = Queue(key='demo_q', host='localhost', port=6379, db=0)
 
 # The Hunter!
-conf = {'url': 'https://some.forever.streaming.api.endpoint'}
-h = Hunter(conf=conf, sc=sc, q=q)
+h = Hunter(url='SOME_ENDLESS_STREAM_LIKE_TWITTER_FIREHOSE', q=q)
 
 # Start streaming, FOREVA
 h.tide_on()
 ```
 
-You can delegate the responsibility of data consumption and stream
-control to another process:
+Then you delegate the flow control and data consumption to another/many other processes such as:
 
 ```python
 from techies import StateCounter, Queue
 
-# The SAME state machine and record counter (state counter)
+# The key is to have the SAME state counter
 sc = StateCounter(key='demo_sc', host='localhost', port=6379, db=0)
 
-# The SAME data queue
+# And the SAME data queue
 q = Queue(key='demo_q', host='localhost', port=6379, db=0)
 
 while sc.started():
@@ -98,22 +91,60 @@ while sc.started():
     # ...do something with data
 
     if SHT_HITS_THE_FAN:
-        sc.stop()  # instant off switch, end of while loop, as well as the process above
+        sc.stop()  # instant off switch
+        # end of this loop, as well as the streaming process from above
+
+# If needed
+q.clear()
+sc.clear()
 ```
 
-See [demo](https://github.com/woozyking/tidehunter/tree/master/demo) for more examples.
+### Example 3 (OAuth with Twitter Sample Firehose):
+
+__NOTE__: this example requires `requests_oauthlib`
+
+```
+import sys
+import os
+import json
+
+if sys.version_info[0] < 3:  # Python 2.x
+    from Queue import Queue
+else:  # Python 3.x
+    from queue import Queue
+
+from requests_oauthlib import OAuth1
+from tidehunter import Hunter
+
+url = 'https://stream.twitter.com/1.1/statuses/sample.json'
+q = Queue()
+auth = OAuth1(
+    os.environ['TWITTER_CONSUMER_KEY'],
+    os.environ['TWITTER_CONSUMER_SECRET'],
+    os.environ['TWITTER_TOKEN_KEY'],
+    os.environ['TWITTER_TOKEN_SECRET']
+)
+hunter = Hunter(url=url, q=q, auth=auth)
+
+r = hunter.tide_on(5)  # let's just get 5 for now
+
+print(r.status_code)
+print('')
+
+while q.qsize():
+    print(json.loads(q.get()))
+    print('')
+```
+
+For other authentication support, check it out at [various authentications support](http://docs.python-requests.org/en/latest/user/authentication/). In short, all you have to do is to pass the desired `auth` parameter to `Hunter`.
 
 # Test (Unit Tests)
-
-The tests are done through Travis-CI already. To run them locally:
 
 ```bash
 $ pip install -r requirements.txt
 $ pip install -r test_requirements.txt
 $ nosetests --with-coverage --cover-package=tidehunter
 ```
-
-Again, make sure you have both cURL (libcurl, libcurl-dev) and Redis installed
 
 # License
 

@@ -14,10 +14,12 @@ __author__ = 'Runzhou Li (Leo)'
 __license__ = 'The MIT License (MIT)'
 __copyright__ = 'Runzhou Li (Leo)'
 
-from tidehunter.stream import Hunter
+from tidehunter.stream import (
+    Hunter, SimpleStateCounter
+)
 
 __all__ = [
-    'Hunter'
+    'Hunter', 'SimpleStateCounter'
 ]
 
 # Set default logging handler to avoid "No handler found" warnings.

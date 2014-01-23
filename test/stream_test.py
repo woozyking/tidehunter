@@ -2,11 +2,11 @@
 # -*- coding: utf-8 -*-
 
 import unittest
+import requests
+from random import randint
 
 import sys
 import os
-
-from techies import Queue, StateCounter
 
 target_path = os.path.join(os.path.dirname(__file__), '..', 'tidehunter')
 sys.path.append(target_path)
@@ -15,94 +15,36 @@ sys.path.append(target_path)
 from stream import Hunter
 
 
+class DummyQueue(object):
+
+    def put(self, var, block=True):
+        pass
+
+
 class HunterTest(unittest.TestCase):
 
-    def _conf(self):
-        self.hunter_conf = {
-            'url': 'https://httpbin.org/stream/20',
-            'limit': 5,
-            'delimiter': '\n',
-            'timeout': 30
-        }
-
     def setUp(self):
-        self.sc_key = 'test_sc'
-        self.sc = StateCounter(key=self.sc_key, host='localhost', port=6379,
-                               db=0)
-        self.q_key = 'test_q'
-        self.q = Queue(key=self.q_key, host='localhost', port=6379, db=0)
-
-        self._conf()  # load in the hunter_conf
-        self.h = Hunter(self.hunter_conf, self.sc, self.q)
+        url = 'https://httpbin.org/stream/20'
+        q = DummyQueue()
+        self.hunter = Hunter(url=url, q=q)
 
     def test_tide_on(self):
-        self.h.tide_on()
-        self.assertEqual(self.sc.get_total(), 5)
-
-        # test the case of on-the-fly limit adjustment
-        self.sc.conn.hset(self.sc_key, 'total', 0)
-        self.h.tide_on(limit=10)
-        self.assertEqual(self.sc.get_total(), 10)
-
-    def tearDown(self):
-        self.sc.conn.delete(self.sc_key)
-        self.q.conn.delete(self.q_key)
-
         try:
-            self.h.conn.close()
-        except:  # pragma: no cover
-            pass
+            limit = randint(1, 19)
+            r = self.hunter.tide_on(limit)
+            self.assertIsInstance(r, requests.models.Response)
+            self.assertEqual(self.hunter.sc.get_total(), limit)
 
+            limit2 = randint(1, 19)
+            r = self.hunter.tide_on(limit2)
+            self.assertIsInstance(r, requests.models.Response)
+            self.assertEqual(self.hunter.sc.get_total(), limit + limit2)
 
-class HunterTestBasicAuth(unittest.TestCase):
-
-    # TODO: find a stream with BASIC Auth requirement to test
-    # atm just basic auth without streaming
-    def setUp(self):
-        self.sc_key = 'test_sc'
-        self.sc = StateCounter(key=self.sc_key, host='localhost', port=6379,
-                               db=0)
-        self.q_key = 'test_q'
-        self.q = Queue(key=self.q_key, host='localhost', port=6379, db=0)
-
-        conf = {
-            'url': 'http://httpbin.org/hidden-basic-auth/user/passwd',
-            'user': 'woozyking',
-            'pass': 'kingwoozy'
-        }
-        self.h = Hunter(conf, self.sc, self.q)
-
-    def test_tide_on(self):
-        actual = self.h.tide_on()
-        expected = 404
-        self.assertEqual(actual, expected)
-
-    def tearDown(self):
-        self.sc.conn.delete(self.sc_key)
-        self.q.conn.delete(self.q_key)
-
-        try:
-            self.h.conn.close()
-        except:  # pragma: no cover
-            pass
-
-
-class HunterTestOAuth(HunterTest):
-
-    def _conf(self):
-        oauth_config = {
-            'consumer_key': os.environ['TWITTER_CONSUMER_KEY'],
-            'consumer_secret': os.environ['TWITTER_CONSUMER_SECRET'],
-            'token_key': os.environ['TWITTER_TOKEN_KEY'],
-            'token_secret': os.environ['TWITTER_TOKEN_SECRET']
-        }
-
-        self.hunter_conf = {
-            'url': 'https://stream.twitter.com/1.1/statuses/sample.json',
-            'oauth': oauth_config,
-            'limit': 5,
-            'timeout': 30
-        }
+            r = self.hunter.tide_on()
+            self.assertIsInstance(r, requests.models.Response)
+            self.assertEqual(self.hunter.sc.get_total(), limit + limit2 + 20)
+        except requests.exceptions.ConnectionError:
+            pass  # this could happen
 
 
 if __name__ == '__main__':
