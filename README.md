@@ -104,35 +104,26 @@ sc.clear()
 __NOTE__: this example requires `requests_oauthlib`
 
 ```python
-import sys
 import os
 import json
-
-if sys.version_info[0] < 3:  # Python 2.x
-    from Queue import Queue
-else:  # Python 3.x
-    from queue import Queue
-
 from requests_oauthlib import OAuth1
 from tidehunter import Hunter
 
 url = 'https://stream.twitter.com/1.1/statuses/sample.json'
-q = Queue()
 auth = OAuth1(
     os.environ['TWITTER_CONSUMER_KEY'],
     os.environ['TWITTER_CONSUMER_SECRET'],
     os.environ['TWITTER_TOKEN_KEY'],
     os.environ['TWITTER_TOKEN_SECRET']
 )
-hunter = Hunter(url=url, q=q, auth=auth)
-
-r = hunter.tide_on(5)  # let's just get 5 for now
+h = Hunter(url=url, q=q, auth=auth)
+r = h.tide_on(5)  # let's just get 5 for now
 
 print(r.status_code)
 print('')
 
-while q.qsize():
-    print(json.loads(q.get()))
+while h.q.qsize():
+    print(json.loads(h.q.get()))
     print('')
 ```
 
