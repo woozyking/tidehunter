@@ -4,17 +4,24 @@
 """
 HTTP streaming toolbox with flow control, written in Python.
 
-:copyright: (c) 2013 Runzhou Li (Leo)
+:copyright: (c) 2014 Runzhou Li (Leo)
 :license: The MIT License (MIT), see LICENSE for details.
 """
 
 __title__ = 'tidehunter'
-__version__ = '0.1.9'
+__version__ = '1.0.0'
+VERSION = tuple(map(int, __version__.split('.')))
 __author__ = 'Runzhou Li (Leo)'
 __license__ = 'The MIT License (MIT)'
 __copyright__ = 'Runzhou Li (Leo)'
 
-from . import stream
+from tidehunter.stream import (
+    Hunter, SimpleStateCounter
+)
+
+__all__ = [
+    'Hunter', 'SimpleStateCounter'
+]
 
 # Set default logging handler to avoid "No handler found" warnings.
 import logging

@@ -2,8 +2,8 @@
 # -*- coding: utf-8 -*-
 
 import unittest
-import random
-import string
+import requests
+from random import randint
 
 import sys
 import os
@@ -12,275 +12,39 @@ target_path = os.path.join(os.path.dirname(__file__), '..', 'tidehunter')
 sys.path.append(target_path)
 
 # Test Targets
-from stream import StateCounter, Queue, Hunter
+from stream import Hunter
+
+
+class DummyQueue(object):
+
+    def put(self, var, block=True):
+        pass
 
 
 class HunterTest(unittest.TestCase):
 
-    def _conf(self):
-        self.hunter_conf = {
-            'url': 'https://httpbin.org/stream/20',
-            'limit': 5,
-            'delimiter': '\n',
-            'timeout': 30
-        }
-
     def setUp(self):
-        self.sc_key = 'test_sc'
-        self.sc = StateCounter(key=self.sc_key, host='localhost', port=6379,
-                               db=0)
-        self.q_key = 'test_q'
-        self.q = Queue(key=self.q_key, host='localhost', port=6379, db=0)
-
-        self._conf()  # load in the hunter_conf
-        self.h = Hunter(self.hunter_conf, self.sc, self.q)
+        url = 'https://httpbin.org/stream/20'
+        q = DummyQueue()
+        self.hunter = Hunter(url=url, q=q)
 
     def test_tide_on(self):
-        self.h.tide_on()
-        self.assertEqual(self.sc.get_total(), 5)
-
-        # test the case of on-the-fly limit adjustment
-        self.sc.conn.hset(self.sc_key, 'total', 0)
-        self.h.tide_on(limit=10)
-        self.assertEqual(self.sc.get_total(), 10)
-
-    def tearDown(self):
-        self.sc.conn.delete(self.sc_key)
-        self.q.conn.delete(self.q_key)
-
         try:
-            self.h.conn.close()
-        except:  # pragma: no cover
-            pass
+            limit = randint(1, 19)
+            r = self.hunter.tide_on(limit)
+            self.assertEqual(type(r), requests.models.Response)
+            self.assertEqual(self.hunter.sc.get_total(), limit)
 
+            limit2 = randint(1, 19)
+            r = self.hunter.tide_on(limit2)
+            self.assertEqual(type(r), requests.models.Response)
+            self.assertEqual(self.hunter.sc.get_total(), limit + limit2)
 
-class HunterTestBasicAuth(unittest.TestCase):
-
-    # TODO: find a stream with BASIC Auth requirement to test
-    # atm just basic auth without streaming
-    def setUp(self):
-        self.sc_key = 'test_sc'
-        self.sc = StateCounter(key=self.sc_key, host='localhost', port=6379,
-                               db=0)
-        self.q_key = 'test_q'
-        self.q = Queue(key=self.q_key, host='localhost', port=6379, db=0)
-
-        conf = {
-            'url': 'http://httpbin.org/hidden-basic-auth/user/passwd',
-            'user': 'woozyking',
-            'pass': 'kingwoozy'
-        }
-        self.h = Hunter(conf, self.sc, self.q)
-
-    def test_tide_on(self):
-        actual = self.h.tide_on()
-        expected = 404
-        self.assertEqual(actual, expected)
-
-    def tearDown(self):
-        self.sc.conn.delete(self.sc_key)
-        self.q.conn.delete(self.q_key)
-
-        try:
-            self.h.conn.close()
-        except:  # pragma: no cover
-            pass
-
-
-class HunterTestOAuth(HunterTest):
-
-    def _conf(self):
-        oauth_config = {
-            'consumer_key': os.environ['TWITTER_CONSUMER_KEY'],
-            'consumer_secret': os.environ['TWITTER_CONSUMER_SECRET'],
-            'token_key': os.environ['TWITTER_TOKEN_KEY'],
-            'token_secret': os.environ['TWITTER_TOKEN_SECRET']
-        }
-
-        self.hunter_conf = {
-            'url': 'https://stream.twitter.com/1.1/statuses/sample.json',
-            'oauth': oauth_config,
-            'limit': 5,
-            'timeout': 30
-        }
-
-
-class QueueTest(unittest.TestCase):
-
-    def setUp(self):
-        self.key = 'test_q'
-        self.q = Queue(key=self.key, host='localhost', port=6379, db=0)
-        self.q.conn.delete(self.key)
-
-    def test_clear(self):
-        # When empty
-        self.q.clear()
-        self.assertEquals(self.q.conn.llen(self.key), 0)
-
-        # After putting
-        self.q.conn.rpush(self.key, 'test_val')
-        self.q.clear()
-        self.assertEquals(self.q.conn.llen(self.key), 0)
-
-    def test__len__(self):
-        # When empty
-        self.assertEqual(len(self.q), 0)
-
-        # When not empty
-        length = random.randint(1, 32)
-
-        for i in xrange(length):
-            self.q.conn.rpush(self.key, i)
-
-        self.assertEqual(len(self.q), length)
-
-    def test_full(self):
-        # Meaningless now
-        self.assertFalse(self.q.full())
-
-    def test_task_done(self):
-        self.q.task_done()
-
-    def test_join(self):
-        self.q.join()
-
-    def test_qsize(self):
-        # When empty
-        self.assertEqual(self.q.qsize(), 0)
-
-        # When not empty
-        length = random.randint(1, 32)
-
-        for i in xrange(length):
-            self.q.conn.rpush(self.key, i)
-
-        self.assertEqual(self.q.qsize(), length)
-
-    def test_empty(self):
-        # When empty
-        self.assertTrue(self.q.empty())
-
-        # When not empty
-        length = random.randint(1, 32)
-
-        for i in xrange(length):
-            self.q.conn.rpush(self.key, i)
-
-        self.assertFalse(self.q.empty())
-
-    def test_put(self):
-        val = ''.join(random.choice(string.ascii_uppercase + string.digits)
-                      for x in range(32))
-        self.assertTrue(self.q.put(val))
-        self.assertEqual(self.q.conn.lpop(self.key), val)
-
-    def test_get(self):
-        # When empty
-        # self.assertIsNone(self.q.get())
-        self.assertTrue(self.q.get() is None)  # 2.1 - 2.6 support
-
-        # When not empty
-        val = ''.join(random.choice(string.ascii_uppercase + string.digits)
-                      for x in range(32))
-        self.q.conn.rpush(self.key, val)
-        self.assertEqual(self.q.get(), val)
-
-    def test_put_nowait(self):
-        val = ''.join(random.choice(string.ascii_uppercase + string.digits)
-                      for x in range(32))
-        self.assertTrue(self.q.put_nowait(val))
-        self.assertEqual(self.q.conn.lpop(self.key), val)
-
-    def test_get_nowait(self):
-        # When empty
-        # self.assertIsNone(self.q.get())
-        self.assertTrue(self.q.get_nowait() is None)  # 2.1 - 2.6 support
-
-        # When not empty
-        val = ''.join(random.choice(string.ascii_uppercase + string.digits)
-                      for x in range(32))
-        self.q.conn.rpush(self.key, val)
-        self.assertEqual(self.q.get(), val)
-
-    def tearDown(self):
-        self.q.conn.delete(self.key)
-
-
-class StateCounterTest(unittest.TestCase):
-
-    def setUp(self):
-        self.key = 'test_sc'
-        self.sc = StateCounter(key=self.key, host='localhost', port=6379,
-                               db=0)
-
-    def test_clear(self):
-        # Right after init
-        self.sc.clear()
-        self.assertEqual(self.sc.conn.hget(self.key, 'count'), '0')
-
-        # After having some count
-        self.sc.conn.hincrby(self.key, 'count', 1)
-        self.sc.clear()
-        self.assertEqual(self.sc.conn.hget(self.key, 'count'), '0')
-
-    def test_str(self):
-        self.assertEqual(str(self.sc), 'State: 1\tCount: 0\tTotal: 0')
-
-    def test_get_state(self):
-        self.assertEqual(self.sc.get_state(), 1)
-
-    def test_get_count(self):
-        self.assertEqual(self.sc.get_count(), 0)
-
-    def test_get_total(self):
-        self.assertEqual(self.sc.get_total(), 0)
-
-    def test_get_all(self):
-        expected = {'count': '0', 'state': '1', 'total': '0'}
-        actual = self.sc.get_all()
-
-        self.assertEqual(actual, expected)
-
-    def test_start(self):
-        self.sc.conn.hset(self.key, 'state', 0)
-        self.assertEqual(self.sc.get_state(), 0)
-        self.sc.conn.hset(self.key, 'count', 100)
-        self.assertEqual(self.sc.get_count(), 100)
-
-        self.sc.start()
-
-        self.assertEqual(self.sc.get_state(), 1)
-        self.assertEqual(self.sc.get_count(), 0)
-
-    def test_stop(self):
-        self.assertEqual(self.sc.get_state(), 1)
-        self.sc.conn.hset(self.key, 'count', 100)
-        self.assertEqual(self.sc.get_count(), 100)
-        self.assertEqual(self.sc.get_total(), 0)
-
-        self.sc.stop()
-
-        self.assertEqual(self.sc.get_state(), 0)
-        self.assertEqual(self.sc.get_count(), 0)
-        self.assertEqual(self.sc.get_total(), 100)
-
-    def test_incr(self):
-        self.assertEqual(self.sc.get_count(), 0)
-        self.sc.incr()
-        self.assertEqual(self.sc.get_count(), 1)
-
-    def test_started(self):
-        self.assertTrue(self.sc.started())
-        self.sc.stop()
-        self.assertFalse(self.sc.started())
-
-    def test_stopped(self):
-        self.assertFalse(self.sc.stopped())
-        self.sc.stop()
-        self.assertTrue(self.sc.stopped())
-
-    def tearDown(self):
-        self.sc.conn.delete(self.key)
+            r = self.hunter.tide_on()
+            self.assertEqual(type(r), requests.models.Response)
+            self.assertEqual(self.hunter.sc.get_total(), limit + limit2 + 20)
+        except requests.exceptions.ConnectionError:
+            pass  # this could happen
 
 
 if __name__ == '__main__':

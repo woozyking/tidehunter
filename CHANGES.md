@@ -1,5 +1,15 @@
 ## Changelog
 
+### 1.0.0 (2014-01-22)
+
+* Moved codebase of `Queue`, `StateCounter` to [`techies`](https://github.com/woozyking/techies). It's recommended to use `techies` together with `tidehunter`, but not always required, and therefore not a dependency of `tidehunter`
+* Added `tidehunter.SimpleStateCounter` to be used when no other state counter provided. It's a pure in-process implementation and therefore cannot be accessed by other processes
+* You can now do `from tidehunter import Hunter` instead of `from tidehunter.stream import Hunter`
+* Replaced `PycURL` with [`requests`](https://github.com/kennethreitz/requests). Some of the benefits:
+    * Straight Python 2/3 support
+    * Much cleaner implementation
+    * Further delegation of [various authentications support](http://docs.python-requests.org/en/latest/user/authentication/) to `requests` itself
+
 ### 0.1.9 (2013-12-24)
 
 * `PyCurl` and `Redis` Python libraries bumped to the latest versions.

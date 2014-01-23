@@ -9,6 +9,8 @@ try:
 except ImportError:
     from distutils.core import setup
 
+from tidehunter import __version__
+
 if sys.argv[-1] == 'publish':
     os.system('python setup.py sdist upload')
     sys.exit()
@@ -33,7 +35,7 @@ long_description = readme + '\n\n' + changes
 
 setup(
     name='tidehunter',
-    version='0.1.9',
+    version=__version__,
     description='HTTP streaming toolbox with flow control.',
     long_description=long_description,
     author='Runzhou Li (Leo)',
