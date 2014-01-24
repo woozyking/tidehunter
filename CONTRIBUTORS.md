@@ -1,3 +1,3 @@
 ## Contributors
 
-* **[Leo Li](https://github.com/woozyking)**
+* [Runzhou Li (Leo)](https://github.com/woozyking)

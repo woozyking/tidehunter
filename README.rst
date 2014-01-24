@@ -1,29 +1,24 @@
-TideHunter
+tidehunter
 ==========
 
 HTTP streaming with accurate flow control
 
 Master branch: |Build Status|
 
-**NOTE**: version 1.x is not backward compatible with 0.x.
+**NOTE**: Not backward compatible with 0.x since 1.x.
 
 Highlights
 ----------
 
 -  Consumption limits, total control over your stream quota just on the
-   client side. Especially useful when server side does not have this
-   feature.
--  Instant on and off states, as well as accurate consumption counter.
-   Best used with ```techies`` <https://github.com/woozyking/techies>`__
-   for highly modular designs.
+   client side.
+-  Instant on/off switch and accurate consumption counter. Best used
+   with `techies <https://github.com/woozyking/techies>`__.
 -  Queue interface for scalable stream data consumption. Best used with
-   ```techies`` <https://github.com/woozyking/techies>`__ for highly
-   modular designs.
+   `techies <https://github.com/woozyking/techies>`__.
 -  Core mechanisms based on the solid
-   ```requests`` <https://github.com/kennethreitz/requests>`__ library.
-   Inherits all its goodness, including flexible encodings and `various
-   authentications
-   support <http://docs.python-requests.org/en/latest/user/authentication/>`__.
+   `requests <https://github.com/kennethreitz/requests>`__ library,
+   inherits all its goodness.
 
 Installation
 ------------
@@ -125,44 +120,34 @@ Example 3 (OAuth with Twitter Sample Firehose):
 
 **NOTE**: this example requires ``requests_oauthlib``
 
-::
+.. code:: python
 
-    import sys
     import os
     import json
-
-    if sys.version_info[0] < 3:  # Python 2.x
-        from Queue import Queue
-    else:  # Python 3.x
-        from queue import Queue
-
     from requests_oauthlib import OAuth1
     from tidehunter import Hunter
 
     url = 'https://stream.twitter.com/1.1/statuses/sample.json'
-    q = Queue()
     auth = OAuth1(
         os.environ['TWITTER_CONSUMER_KEY'],
         os.environ['TWITTER_CONSUMER_SECRET'],
         os.environ['TWITTER_TOKEN_KEY'],
         os.environ['TWITTER_TOKEN_SECRET']
     )
-    hunter = Hunter(url=url, q=q, auth=auth)
-
-    r = hunter.tide_on(5)  # let's just get 5 for now
+    h = Hunter(url=url, q=q, auth=auth)
+    r = h.tide_on(5)  # let's just get 5 for now
 
     print(r.status_code)
     print('')
 
-    while q.qsize():
-        print(json.loads(q.get()))
+    while h.q.qsize():
+        print(json.loads(h.q.get()))
         print('')
 
-For other authentication support, check it out at `various
-authentications
-support <http://docs.python-requests.org/en/latest/user/authentication/>`__.
+You can find other authentications on `this requests
+doc <http://docs.python-requests.org/en/latest/user/authentication/>`__.
 In short, all you have to do is to pass the desired ``auth`` parameter
-to ``Hunter``.
+to ``Hunter``, like what you would do with ``requests``.
 
 Test (Unit Tests)
 =================

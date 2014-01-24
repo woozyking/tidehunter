@@ -25,13 +25,21 @@ with open('requirements.txt') as f:
 with open('LICENSE') as f:
     license = f.read().strip()
 
-with open('README.rst') as f:
-    readme = f.read().strip()
+d_files = [
+    'README.rst',
+    'CONTRIBUTORS.rst',
+    'CHANGES.rst'
+]
+long_description = []
 
-with open('CHANGES.rst') as f:
-    changes = f.read().strip()
+for d_file in d_files:
+    with open(d_file) as f:
+        content = f.read().strip()
 
-long_description = readme + '\n\n' + changes
+        if content:
+            long_description.append(content)
+
+long_description = '\n\n'.join(long_description)
 
 setup(
     name='tidehunter',

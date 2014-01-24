@@ -1,4 +1,5 @@
 #!/bin/bash
 
 pandoc -s README.md -o README.rst
+pandoc -s CONTRIBUTORS.md -o CONTRIBUTORS.rst
 pandoc -s CHANGES.md -o CHANGES.rst

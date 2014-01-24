@@ -4,14 +4,14 @@ HTTP streaming with accurate flow control
 
 Master branch: [![Build Status](https://travis-ci.org/woozyking/tidehunter.png?branch=master)](https://travis-ci.org/woozyking/tidehunter)
 
-__NOTE__: version 1.x is not backward compatible with 0.x.
+__NOTE__: Not backward compatible with 0.x since 1.x.
 
 ## Highlights
 
-* Consumption limits, total control over your stream quota just on the client side. Especially useful when server side does not have this feature.
-* Instant on and off states, as well as accurate consumption counter. Best used with [`techies`](https://github.com/woozyking/techies) for highly modular designs.
-* Queue interface for scalable stream data consumption. Best used with [`techies`](https://github.com/woozyking/techies) for highly modular designs.
-* Core mechanisms based on the solid [`requests`](https://github.com/kennethreitz/requests) library. Inherits all its goodness, including flexible encodings and [various authentications support](http://docs.python-requests.org/en/latest/user/authentication/).
+* Consumption limits, total control over your stream quota just on the client side.
+* Instant on/off switch and accurate consumption counter. Best used with [techies](https://github.com/woozyking/techies).
+* Queue interface for scalable stream data consumption. Best used with [techies](https://github.com/woozyking/techies).
+* Core mechanisms based on the solid [requests](https://github.com/kennethreitz/requests) library, inherits all its goodness.
 
 ## Installation
 
@@ -127,7 +127,7 @@ while h.q.qsize():
     print('')
 ```
 
-For other authentication support, check it out at [various authentications support](http://docs.python-requests.org/en/latest/user/authentication/). In short, all you have to do is to pass the desired `auth` parameter to `Hunter`.
+You can find other authentications on [this requests doc](http://docs.python-requests.org/en/latest/user/authentication/). In short, all you have to do is to pass the desired `auth` parameter to `Hunter`, like what you would do with `requests`.
 
 # Test (Unit Tests)
 
