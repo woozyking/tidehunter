@@ -32,11 +32,13 @@ class SimpleStateCounter(object):
         self.count = 0
         self.state = 1
 
+    @property
     def started(self):
         return bool(self.state)
 
+    @property
     def stopped(self):
-        return not self.started()
+        return not self.started
 
     def get_count(self):
         return self.count
@@ -78,7 +80,7 @@ class Hunter(object):
         r = requests.get(self.url, stream=True, **self.kwargs)
 
         for line in r.iter_lines():
-            if self.sc.stopped():
+            if self.sc.stopped:
                 break
 
             if line:

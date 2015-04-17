@@ -86,7 +86,7 @@ sc = StateCounter(key='demo_sc', host='localhost', port=6379, db=0)
 # And the SAME data queue
 q = Queue(key='demo_q', host='localhost', port=6379, db=0)
 
-while sc.started():
+while sc.started:
     data = q.get()  # dequeue and
     # ...do something with data
 

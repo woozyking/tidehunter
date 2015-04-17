@@ -1,5 +1,9 @@
 ## Changelog
 
+### 1.0.1 (2015-04-17)
+
+* __Breaking Change__: `tidehunter.SimpleStateCounter` updated to reflect [`techies`](https://github.com/woozyking/techies) 0.2.0 changes on `StateCounter`. Consequently `techies` must be updated to 0.2.0+ if you wish to use `tidehunter` 1.0.1+
+
 ### 1.0.0 (2014-01-22)
 
 * Moved codebase of `Queue`, `StateCounter` to [techies](https://github.com/woozyking/techies). It's recommended to use `techies` together with `tidehunter`, but not always required, and therefore not a dependency of `tidehunter`
